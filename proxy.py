@@ -1,3 +1,4 @@
+import os
 import hashlib
 import datetime
 
@@ -73,6 +74,12 @@ def colored_text(text, color):
 
 # Ana fonksiyon
 def main():
+    # Pencere başlığını değiştir
+    if os.name == 'nt':  # Windows
+        os.system("title Dark Proxy V1")
+    else:  # Linux/MacOS
+        os.system("echo -e '\033]0;Dark Proxy V1\007'")
+
     # Başlık
     print(colored_text("Dark Proxy", 'blue'))
     display_ascii_art()
