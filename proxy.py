@@ -57,10 +57,24 @@ def show_menu(username):
     else:
         print("Geçersiz seçim!")
 
+# Renkli metin için ANSI kodları
+def colored_text(text, color):
+    colors = {
+        'red': '\033[91m',
+        'green': '\033[92m',
+        'yellow': '\033[93m',
+        'blue': '\033[94m',
+        'magenta': '\033[95m',
+        'cyan': '\033[96m',
+        'white': '\033[97m',
+        'reset': '\033[0m'
+    }
+    return f"{colors.get(color, colors['white'])}{text}{colors['reset']}"
+
 # Ana fonksiyon
 def main():
     # Başlık
-    print("Dark Proxy")
+    print(colored_text("Dark Proxy", 'blue'))
     display_ascii_art()
 
     # Lisans anahtarını al
