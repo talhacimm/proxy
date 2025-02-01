@@ -28,15 +28,30 @@ def validate_license(license_key):
         print("Geçersiz lisans anahtarı.")
         return None
 
-# Ascii Art
+# Renkli metin için ANSI kodları
+def colored_text(text, color):
+    colors = {
+        'red': '\033[91m',
+        'green': '\033[92m',
+        'yellow': '\033[93m',
+        'blue': '\033[94m',
+        'magenta': '\033[95m',
+        'cyan': '\033[96m',
+        'white': '\033[97m',
+        'reset': '\033[0m'
+    }
+    return f"{colors.get(color, colors['white'])}{text}{colors['reset']}"
+
+# Renkli ASCII Art
 def display_ascii_art():
     art = '''
- ____             _      ____                      
-|  _ \\  __ _ _ __| | __ |  _ \\ _ __ _____  ___   _ 
-| | | |/ _` | '__| |/ / | |_) | '__/ _ \\ \/ / | | |
+\033[94m ____             _      ____                      
+|  _ \  __ _ _ __| | __ |  _ \ _ __ _____  ___   _ 
+| | | |/ _` | '__| |/ / | |_) | '__/ _ \ \/ / | | |
 | |_| | (_| | |  |   <  |  __/| | | (_) >  <| |_| |
-|____/ \\__,_|_|  |_\\_\\ |_|   |_|  \\___/_/\\_\\\\__, |
+|____/ \__,_|_|  |_\\_\\ |_|   |_|  \___/_/\\_\\\\__, |
                                              |___/  
+\033[0m
 '''
     print(art)
 
@@ -57,20 +72,6 @@ def show_menu(username):
         print("Çıkış yapılıyor...")
     else:
         print("Geçersiz seçim!")
-
-# Renkli metin için ANSI kodları
-def colored_text(text, color):
-    colors = {
-        'red': '\033[91m',
-        'green': '\033[92m',
-        'yellow': '\033[93m',
-        'blue': '\033[94m',
-        'magenta': '\033[95m',
-        'cyan': '\033[96m',
-        'white': '\033[97m',
-        'reset': '\033[0m'
-    }
-    return f"{colors.get(color, colors['white'])}{text}{colors['reset']}"
 
 # Ana fonksiyon
 def main():
