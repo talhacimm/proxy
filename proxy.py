@@ -17,16 +17,16 @@ licenses = {
 # Lisans anahtarını doğrulayan fonksiyon
 def validate_license(license_key):
     license_info = licenses.get(license_key)
-    if license_info:
-        expiration_date = datetime.datetime.strptime(license_info["expiration_date"], "%Y-%m-%d")
-        if expiration_date >= datetime.datetime.now():
-            return license_info
-        else:
-            print("Lisans süresi dolmuş.")
-            return None
-    else:
-        print("Geçersiz lisans anahtarı.")
+    
+    if not license_info:
+        print("\033[91mGeçersiz lisans anahtarı!\033[0m")
         return None
+    
+    expiration_date = datetime.datetime.strptime(license_info["expiration_date"], "%Y-%m-%d")
+    if expiration_date < datetime.datetime.now():
+        print("\033[91mLisans süresi dolmuş! Lütfen geçerli bir lisans anahtarı girin.\033[0m")
+        return None
+    return license_info
 
 # Renkli metin için ANSI kodları
 def colored_text(text, color):
@@ -94,7 +94,7 @@ def main():
     if license_info:
         show_menu(license_info["username"])
     else:
-        print("Programa giriş yapılamaz.")
+        print("\033[91mPrograma giriş yapılamaz.\033[0m")
 
 if __name__ == "__main__":
     main()
