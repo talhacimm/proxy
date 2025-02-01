@@ -1,34 +1,43 @@
 import os
 import hashlib
 import datetime
+import msvcrt
+import time
 
-# Lisans anahtarı ve kullanıcı bilgileri
 licenses = {
-    "1234-5678-ABCD-EFGH": {
-        "username": "Ali Yılmaz",
+    "talhatester": {
+        "username": "Talha",
         "expiration_date": "2025-12-31"
     },
-    "9876-5432-ZYXW-VUTS": {
-        "username": "Ayşe Demir",
+    "croismisin": {
+        "username": "Crois",
         "expiration_date": "2025-06-30"
     }
 }
 
-# Lisans anahtarını doğrulayan fonksiyon
 def validate_license(license_key):
-    license_info = licenses.get(license_key)
-    
-    if not license_info:
-        print("\033[91mGeçersiz lisans anahtarı!\033[0m")
-        return None
-    
-    expiration_date = datetime.datetime.strptime(license_info["expiration_date"], "%Y-%m-%d")
-    if expiration_date < datetime.datetime.now():
-        print("\033[91mLisans süresi dolmuş! Lütfen geçerli bir lisans anahtarı girin.\033[0m")
-        return None
-    return license_info
+    try:
+        license_info = licenses.get(license_key)
+        
+        if not license_info:
+            print(colored_text("Geçersiz lisans anahtarı!", 'red'))
+            return None
+        
+        expiration_date = datetime.datetime.strptime(license_info["expiration_date"], "%Y-%m-%d")
+        if expiration_date < datetime.datetime.now():
+            print(colored_text("Lisans anahtarınızın süresi dolmuş! discord adresinden yenileyin!", 'red'))
+            return None
+        
 
-# Renkli metin için ANSI kodları
+        remaining_time = expiration_date - datetime.datetime.now()
+        print(f"\n{colored_text('Lisansınızın geçerlilik süresi:', 'yellow')} {remaining_time.days} gün kaldı.\n")
+        
+        return license_info
+    except Exception as e:
+        print(f"{colored_text('Hata oluştu:', 'red')} {e}")
+        input("Hata oluştu. Kapanmadan önce Enter'a basın...")
+        return None
+
 def colored_text(text, color):
     colors = {
         'red': '\033[91m',
@@ -42,58 +51,77 @@ def colored_text(text, color):
     }
     return f"{colors.get(color, colors['white'])}{text}{colors['reset']}"
 
-# Renkli ASCII Art
+
 def display_ascii_art():
     art = '''\033[94m
- ____             _      ____                      
-|  _ \\  __ _ _ __| | __ |  _ \\ _ __ _____  ___   _ 
-| | | |/ _` | '__| |/ / | |_) | '__/ _ \\ \/ / | | |
-| |_| | (_| | |  |   <  |  __/| | | (_) >  <| |_| |
-|____/ \\__,_|_|  |_\\_\\ |_|   |_|  \\___/_/\\_\\\\__, |
-                                             |___/  
+ ██████████                       █████                
+░░███░░░░███                     ░░███                 
+ ░███   ░░███  ██████   ████████  ░███ █████           
+ ░███    ░███ ░░░░░███ ░░███░░███ ░███░░███            
+ ░███    ░███  ███████  ░███ ░░░  ░██████░             
+ ░███    ███  ███░░███  ░███      ░███░░███            
+ ██████████  ░░████████ █████     ████ █████           
+░░░░░░░░░░    ░░░░░░░░ ░░░░░     ░░░░ ░░░░░      
+ ███████████                                           
+░░███░░░░░███                                          
+ ░███    ░███ ████████   ██████  █████ █████ █████ ████
+ ░██████████ ░░███░░███ ███░░███░░███ ░░███ ░░███ ░███ 
+ ░███░░░░░░   ░███ ░░░ ░███ ░███ ░░░█████░   ░███ ░███ 
+ ░███         ░███     ░███ ░███  ███░░░███  ░███ ░███ 
+ █████        █████    ░░██████  █████ █████ ░░███████ 
+░░░░░        ░░░░░      ░░░░░░  ░░░░░ ░░░░░   ░░░░░███ 
+                                              ███ ░███ 
+                                             ░░██████  
+                                              ░░░░░░       
 \033[0m'''
-    print(art)
 
-# Kullanıcıdan lisans anahtarını al
+
+    colors = ['red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white'] 
+    for i in range(10):
+        color = colors[i % len(colors)]
+        print(colored_text(art, color))
+        time.sleep(0.5) 
+        os.system('cls' if os.name == 'nt' else 'clear') 
+
+
 def get_license():
-    license_key = input("Lütfen lisans anahtarınızı girin: ")
+    license_key = input(colored_text("Lisans anahtarınızı girin: ", 'green'))
     return license_key
 
-# Menü
-def show_menu(username):
-    print(f"\nHoş geldiniz, {username}!")
-    print("1. Programı Başlat")
-    print("2. Çıkış")
-    choice = input("Seçiminiz: ")
-    if choice == "1":
-        print("Program başlatılıyor...")
-    elif choice == "2":
-        print("Çıkış yapılıyor...")
-    else:
-        print("Geçersiz seçim!")
 
-# Ana fonksiyon
+def show_menu(username):
+    print(f"\n{colored_text('Hoş geldiniz,', 'green')} {colored_text(username, 'cyan')}!")
+    print(colored_text("1. Proxy'i çalıştır", 'green'))
+    print(colored_text("2. Çıkış", 'red'))
+    choice = input(colored_text("Seçim yapınız: ", 'yellow'))
+    if choice == "1":
+        print(colored_text("Proxy başlatılamadı, güncelleme bekleniyor.", 'red'))
+    elif choice == "2":
+        print(colored_text("Çıkış yapılıyor...", 'red'))
+    else:
+        print(colored_text("Geçersiz seçim!", 'red'))
+
+
 def main():
-    # Pencere başlığını değiştir
-    if os.name == 'nt':  # Windows
+    if os.name == 'nt':
         os.system("title Dark Proxy V1")
-    else:  # Linux/MacOS
+        os.system("color 0f")
+    else:
         os.system("echo -e '\033]0;Dark Proxy V1\007'")
 
-    # Başlık
-    print(colored_text("Dark Proxy", 'blue'))
     display_ascii_art()
 
-    # Lisans anahtarını al
     license_key = get_license()
 
-    # Lisans doğrulaması
     license_info = validate_license(license_key)
 
     if license_info:
         show_menu(license_info["username"])
     else:
-        print("\033[91mPrograma giriş yapılamaz.\033[0m")
+        print(colored_text("HATA!", 'red'))
+
+    print(colored_text("Bizi tercih ettiğiniz için teşekkür ederiz..", 'blue'))
+    msvcrt.getch()
 
 if __name__ == "__main__":
     main()
