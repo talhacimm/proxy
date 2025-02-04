@@ -9,6 +9,10 @@ licenses = {
         "username": "Talha",
         "expiration_date": "2025-12-31"
     },
+        "woozie": {
+        "username": "Rawien",
+        "expiration_date": "2026-12-31"
+    },
     "croismisin": {
         "username": "Crois",
         "expiration_date": "2025-06-30"
